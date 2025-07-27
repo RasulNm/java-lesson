@@ -54,6 +54,24 @@ public class BasicsLesson {
                     }
                     System.out.println("\n----------------------------------");
                     break;
+
+                // Поиск контакта по имени
+                case 3:
+                    System.out.print("Введите имя для поиска: ");
+                    String searcheByName = scanner.next();
+                    String[] listOfNames = new String[names.length];
+                    for (int i = 0, j = 0; i < names.length && i < phoneNumbers.length; i++) {
+                        if (searcheByName.equals(names[i])) {
+                            listOfNames[j] = names[i] + ": " + phoneNumbers[i];
+                            System.out.println("Телефон " + listOfNames[j]);
+                            j++;
+                        }
+                    }
+                    if (listOfNames[0] == null) {
+                        System.out.println("Контакт с именем " + searcheByName + " не найден.");
+                    }
+                    System.out.println("----------------------------------");
+                    break;
             }
         }
         scanner.close();
