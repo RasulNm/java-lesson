@@ -38,6 +38,22 @@ public class BasicsLesson {
                     }
                     System.out.println("----------------------------------");
                     break;
+
+                // Просмотр всех контактов
+                case 2:
+                    System.out.print("Список контаков: ");
+                    for (int i = 0; i < names.length && i < phoneNumbers.length; i++) {
+                        if (names[i] == null && phoneNumbers[i] == null) {
+                            break;
+                        } else {
+                            System.out.print("\n" + (i + 1) + ". " + names[i] + " - " + phoneNumbers[i]);
+                        }
+                    }
+                    if (names[0] == null && phoneNumbers[0] == null) {
+                        System.out.print("0");
+                    }
+                    System.out.println("\n----------------------------------");
+                    break;
             }
         }
         scanner.close();
