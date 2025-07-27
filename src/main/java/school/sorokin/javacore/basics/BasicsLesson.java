@@ -72,6 +72,37 @@ public class BasicsLesson {
                     }
                     System.out.println("----------------------------------");
                     break;
+
+                // Удаление контакта (использована пузырьковая сортировка, чтобы сдвинуть элементы для заполнения пустого места)
+                case 4:
+                    System.out.print("Введите имя для удаления: ");
+                    String nameToDelete = scanner.next();
+                    String temp;
+                    for (int i = 0; i < names.length && i < phoneNumbers.length; i++) {
+                        if (nameToDelete.equals(names[i])) {
+                            names[i] = null;
+                            phoneNumbers[i] = null;
+
+                            for (int j = 0; j < names.length - 1; j++) {
+                                if (names[j] == null) {
+                                    temp = names[j];
+                                    names[j] = names[j + 1];
+                                    names[j + 1] = temp;
+                                }
+                                if (phoneNumbers[j] == null) {
+                                    temp = phoneNumbers[j];
+                                    phoneNumbers[j] = phoneNumbers[j + 1];
+                                    phoneNumbers[j + 1] = temp;
+                                }
+                                if (j == names.length - 2) {
+                                    i--;
+                                }
+                            }
+
+                        }
+                    }
+                    System.out.println("----------------------------------");
+                    break;
             }
         }
         scanner.close();
