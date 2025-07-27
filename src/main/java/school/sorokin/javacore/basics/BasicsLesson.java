@@ -103,6 +103,17 @@ public class BasicsLesson {
                     }
                     System.out.println("----------------------------------");
                     break;
+
+                // Выход из программы (выход из цикла while)
+                case 5:
+                    System.out.println("Выход из программы.");
+                    isExitFromCycle = false;
+                    System.out.println("----------------------------------");
+                    break;
+
+                default:
+                    System.out.println("Неккоретный ввод, попробуйте еще раз.");
+                    System.out.println("----------------------------------");
             }
         }
         scanner.close();
