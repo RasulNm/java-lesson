@@ -26,10 +26,19 @@ public class BasicsLesson {
                     int count = 0;
                     for (int i = 0; i < names.length && i < phoneNumbers.length; i++, count++) {
                         if (names[i] == null && phoneNumbers[i] == null) {
+                            //Пересоздаю scanner, чтобы очистить память для метода nextLine()
+                            // от оставшегося символа новой строки (\n - enter) после nextInt()
+                            scanner = new Scanner(System.in);
                             System.out.print("Имя: ");
-                            names[i] = scanner.next();
+                            names[i] = scanner.nextLine();
                             System.out.print("Телефон: ");
-                            phoneNumbers[i] = scanner.next();
+                            phoneNumbers[i] = scanner.nextLine();
+                            if (names[i].isBlank() && phoneNumbers[i].isBlank()) {
+                                names[i] = null;
+                                phoneNumbers[i] = null;
+                                System.out.println("Не удалось добавить контакт, " +
+                                        "так как строка была пустой или содержала только пробелы");
+                            }
                             break;
                         }
                     }
