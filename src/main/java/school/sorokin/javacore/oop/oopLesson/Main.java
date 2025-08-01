@@ -42,7 +42,7 @@ public class Main {
                         System.out.println("---------------------------------------");
                         System.out.println("Выберите тип публикации: \n1 - Book. \n2 - Magazine. \n3 - Newspaper.");
                         System.out.print("Введите номер типа публикации (1-3): ");
-                        if(scanner.hasNextInt()) {
+                        if (scanner.hasNextInt()) {
                             publicationTypeNumber = scanner.nextInt();
                             validInput = false;
                         } else {
@@ -92,6 +92,13 @@ public class Main {
                         System.out.println("Неверный ввод.");
                         System.out.println("---------------------------------------");
                     }
+                    break;
+
+                case 2:
+                    System.out.println("---------------------------------------");
+                    System.out.println("Список публикаций:");
+                    library.listPublications();
+                    System.out.println("---------------------------------------");
                     break;
 
                 default:

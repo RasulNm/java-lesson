@@ -14,4 +14,14 @@ public class Library {
         publications.add(pb);
         Publication.setPublicationCount(true);
     }
+
+    public void listPublications() {
+        if(publications != null) {
+            for (Publication list : publications) {
+                System.out.println(list.toString());
+            }
+        } else {
+            System.out.println("В списке нет публикаций.");
+        }
+    }
 }
