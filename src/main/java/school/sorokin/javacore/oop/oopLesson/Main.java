@@ -109,6 +109,14 @@ public class Main {
                     System.out.println("----------------------------------");
                     break;
 
+                case 4:
+                    System.out.println("----------------------------------");
+                    System.out.print("Введите имя автора: ");
+                    scanner = new Scanner(System.in);
+                    library.deletePublication(scanner.nextLine());
+                    System.out.println("----------------------------------");
+                    break;
+
                 default:
                     System.out.println("----------------------------------");
                     System.out.println("Неккоретный ввод, попробуйте еще раз.");
