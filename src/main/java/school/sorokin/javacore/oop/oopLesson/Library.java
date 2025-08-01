@@ -24,4 +24,12 @@ public class Library {
             System.out.println("В списке нет публикаций.");
         }
     }
+
+    public void searchByAuthor(String Author) {
+        for (Publication list : publications) {
+            if (list.getAuthor().equals(Author)) {
+                System.out.println(list.toString());
+            }
+        }
+    }
 }
