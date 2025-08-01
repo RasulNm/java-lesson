@@ -117,6 +117,20 @@ public class Main {
                     System.out.println("----------------------------------");
                     break;
 
+                case 5:
+                    System.out.println("----------------------------------");
+                    System.out.print("Общее количество публикаций: ");
+                    System.out.println(Publication.getPublicationCount());
+                    System.out.println("----------------------------------");
+                    break;
+
+                case 0:
+                    System.out.println("----------------------------------");
+                    System.out.println("Выход из программы.");
+                    isExitFromCycle = false;
+                    System.out.println("----------------------------------");
+                    break;
+
                 default:
                     System.out.println("----------------------------------");
                     System.out.println("Неккоретный ввод, попробуйте еще раз.");
