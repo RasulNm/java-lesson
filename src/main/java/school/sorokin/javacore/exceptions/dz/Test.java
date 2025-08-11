@@ -1,6 +1,7 @@
 package school.sorokin.javacore.exceptions.dz;
 
 import java.util.InputMismatchException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Test {
@@ -43,6 +44,14 @@ public class Test {
                         System.out.println("-----------------------------------------------");
                         break;
 
+                    case 3:
+                        scanner.nextLine();
+                        System.out.print("Название книги: ");
+                        title = scanner.nextLine();
+                        library.takeBook(title);
+                        System.out.println("-----------------------------------------------");
+                        break;
+
                     case 5:
                         isRun = false;
                         System.out.println("Выход из программы.");
@@ -59,6 +68,12 @@ public class Test {
                 System.out.println("-----------------------------------------------");
             } catch (NullPointerException e) {
                 System.out.println(e);
+                System.out.println("-----------------------------------------------");
+            } catch (NoAvailableCopiesException e) {
+                System.out.println(e.getMessage());
+                System.out.println("-----------------------------------------------");
+            } catch (NoSuchElementException e) {
+                System.out.println(e.getMessage());
                 System.out.println("-----------------------------------------------");
             }
 
