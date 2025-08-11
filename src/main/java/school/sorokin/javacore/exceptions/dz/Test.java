@@ -31,6 +31,18 @@ public class Test {
                         System.out.println("-----------------------------------------------");
                         break;
 
+                    case 2:
+                        scanner.nextLine();
+                        System.out.print("Имя автора: ");
+                        String author = scanner.nextLine();
+                        System.out.print("Название книги: ");
+                        String title = scanner.nextLine();
+                        System.out.print("Количество экземпляров: ");
+                        int availableCopies = scanner.nextInt();
+                        library.addBook(title, author, availableCopies);
+                        System.out.println("-----------------------------------------------");
+                        break;
+
                     case 5:
                         isRun = false;
                         System.out.println("Выход из программы.");
