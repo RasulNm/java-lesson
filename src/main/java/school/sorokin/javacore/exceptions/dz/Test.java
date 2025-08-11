@@ -52,6 +52,14 @@ public class Test {
                         System.out.println("-----------------------------------------------");
                         break;
 
+                    case 4:
+                        scanner.nextLine();
+                        System.out.print("Название книги: ");
+                        title = scanner.nextLine();
+                        library.returnBook(title);
+                        System.out.println("-----------------------------------------------");
+                        break;
+
                     case 5:
                         isRun = false;
                         System.out.println("Выход из программы.");

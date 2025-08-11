@@ -40,4 +40,16 @@ public class Library {
         }
         throw new NoSuchElementException("Ошибка: книга с таким названием отсутствует в списке.");
     }
+
+    // увеличивает copies или логирует
+    public void returnBook(String title) {
+        for (Book catalog : catalog) {
+            if (title.equals(catalog.title)) {
+                catalog.availableCopies++;
+                log.debug("Пользователь вернул книгу: " + title + ". Количество копий увеличилось на 1.");
+                return;
+            }
+        }
+        log.error("Ошибка: книга с таким названием отсутствует в списке.");
+    }
 }
