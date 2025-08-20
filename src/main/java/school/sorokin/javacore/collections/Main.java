@@ -1,6 +1,7 @@
 package school.sorokin.javacore.collections;
 
 import org.slf4j.*;
+
 import java.util.*;
 
 public class Main {
@@ -52,6 +53,14 @@ public class Main {
                         System.out.println("-----------------------------------------------");
                         break;
 
+                    case 2:
+                        scanner = new Scanner(System.in);
+                        System.out.print("Введите имя: ");
+                        name = scanner.nextLine();
+                        System.out.println(contactManager.deleteContact(name));
+                        System.out.println("-----------------------------------------------");
+                        break;
+
                     case 0:
                         isRunning = false;
                         System.out.println("Выход из программы.");
@@ -65,6 +74,9 @@ public class Main {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Ошибка: Введите целое число.");
+                System.out.println("-----------------------------------------------");
+            } catch (NullPointerException e) {
+                System.out.println("Ошибка: " + e);
                 System.out.println("-----------------------------------------------");
             }
 

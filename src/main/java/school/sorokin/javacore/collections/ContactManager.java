@@ -23,4 +23,37 @@ public class ContactManager {
             System.out.println("Контакт с таким именем и номером уже существует!");
         }
     }
+
+    // удаление контакта
+    public String deleteContact(String name) throws NullPointerException {
+        if (listContacts == null || listContacts.size() == 0) {
+            throw new NullPointerException("Пусто. Контакты не добавлены.");
+        }
+
+        String message = "Контакт с таким именем не найден.";
+
+        Iterator<Contact> listIterator = listContacts.iterator();
+        while (listIterator.hasNext()) {
+            if (listIterator.next().getName().equals(name)) {
+                listIterator.remove();
+                message = "Контакт удален.";
+            }
+        }
+
+        Iterator<Contact> setIterator = setContacts.iterator();
+        while (setIterator.hasNext()) {
+            if (setIterator.next().getName().equals(name)) {
+                setIterator.remove();
+            }
+        }
+
+        Iterator<Map.Entry<String, Contact>> mapIterator = mapContacts.entrySet().iterator();
+        while (mapIterator.hasNext()) {
+            if (mapIterator.next().getValue().getName().equals(name)) {
+                mapIterator.remove();
+            }
+        }
+        return message;
+    }
+
 }
