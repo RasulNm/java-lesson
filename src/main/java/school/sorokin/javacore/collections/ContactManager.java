@@ -80,4 +80,20 @@ public class ContactManager {
             }
         }
     }
+
+    // просмотр контактов по группе (при добавлении элемента в Map,
+    // если ключ уже существует, то старое значение будет перезаписано новым значением,
+    // а ключ останется неизменным)
+    public void getContactsByGroup(String group) {
+        if (listContacts == null || listContacts.size() == 0) {
+            throw new NullPointerException("Пусто. Контакты не добавлены.");
+        }
+        for (Map.Entry<String, Contact> entry : mapContacts.entrySet()) {
+            if (entry.getKey().equals(group)) {
+                System.out.println("---Контакты в группе \"" + entry.getKey() + "\":---");
+                System.out.println(entry.getValue().getName() + " | " + entry.getValue().getPhone()
+                        + " | " + entry.getValue().getEmail());
+            }
+        }
+    }
 }

@@ -75,6 +75,14 @@ public class Main {
                         System.out.println("-----------------------------------------------");
                         break;
 
+                    case 5:
+                        scanner = new Scanner(System.in);
+                        System.out.print("Введите название группы: ");
+                        group = scanner.nextLine();
+                        contactManager.getContactsByGroup(group);
+                        System.out.println("-----------------------------------------------");
+                        break;
+
                     case 0:
                         isRunning = false;
                         System.out.println("Выход из программы.");
