@@ -61,6 +61,12 @@ public class Main {
                         System.out.println("-----------------------------------------------");
                         break;
 
+                    case 3:
+                        System.out.println("Список контактов");
+                        contactManager.getAllContacts();
+                        System.out.println("-----------------------------------------------");
+                        break;
+
                     case 0:
                         isRunning = false;
                         System.out.println("Выход из программы.");

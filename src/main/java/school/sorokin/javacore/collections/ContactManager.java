@@ -56,4 +56,14 @@ public class ContactManager {
         return message;
     }
 
+    // просмотр всех контактов
+    public void getAllContacts() throws NullPointerException {
+        if (listContacts == null || listContacts.size() == 0) {
+            throw new NullPointerException("Пусто. Контакты не добавлены.");
+        }
+        Iterator<Contact> iterator = listContacts.iterator();
+        while (iterator.hasNext()) {
+            System.out.println(iterator.next());
+        }
+    }
 }
