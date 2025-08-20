@@ -11,7 +11,7 @@
 
     <Loggers>
         <!-- avoid duplicated logs with additivity=false -->
-        <Logger name="school.sorokin.javacore.exceptions.dz" level="debug" additivity="false">
+        <Logger name="school.sorokin.javacore.collections" level="debug" additivity="false">
             <AppenderRef ref="LogToConsole"/>
         </Logger>
 
