@@ -66,4 +66,18 @@ public class ContactManager {
             System.out.println(iterator.next());
         }
     }
+
+    // поиск контакта по имени
+    public void getContactByName(String name) throws NullPointerException {
+        if (listContacts == null || listContacts.size() == 0) {
+            throw new NullPointerException("Пусто. Контакты не добавлены.");
+        }
+        Iterator<Contact> listIterator = listContacts.iterator();
+        while (listIterator.hasNext()) {
+            Contact contact = listIterator.next();
+            if (contact.getName().equals(name)) {
+                System.out.println(contact);
+            }
+        }
+    }
 }

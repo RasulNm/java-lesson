@@ -67,6 +67,14 @@ public class Main {
                         System.out.println("-----------------------------------------------");
                         break;
 
+                    case 4:
+                        scanner = new Scanner(System.in);
+                        System.out.print("Введите имя: ");
+                        name = scanner.nextLine();
+                        contactManager.getContactByName(name);
+                        System.out.println("-----------------------------------------------");
+                        break;
+
                     case 0:
                         isRunning = false;
                         System.out.println("Выход из программы.");
