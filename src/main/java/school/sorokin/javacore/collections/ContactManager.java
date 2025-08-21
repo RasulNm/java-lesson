@@ -7,13 +7,14 @@ public class ContactManager {
     private Set<Contact> setContacts;
     private Map<String, Contact> mapContacts;
 
+    public ContactManager(){
+        listContacts = new ArrayList<>();
+        setContacts = new HashSet<>();
+        mapContacts = new HashMap<>();
+    }
+
     // добавление контакта
     public void addContact(Contact contact, Contact mapContact) {
-        if (listContacts == null) {
-            listContacts = new ArrayList<>();
-            setContacts = new HashSet<>();
-            mapContacts = new HashMap<>();
-        }
         setContacts.add(contact);
         if (setContacts.size() > listContacts.size()) {
             listContacts.add(contact);
@@ -26,7 +27,7 @@ public class ContactManager {
 
     // удаление контакта
     public String deleteContact(String name) throws NullPointerException {
-        if (listContacts == null || listContacts.size() == 0) {
+        if (listContacts.size() == 0) {
             throw new NullPointerException("Пусто. Контакты не добавлены.");
         }
 
@@ -58,7 +59,7 @@ public class ContactManager {
 
     // просмотр всех контактов
     public void getAllContacts() throws NullPointerException {
-        if (listContacts == null || listContacts.size() == 0) {
+        if (listContacts.size() == 0) {
             throw new NullPointerException("Пусто. Контакты не добавлены.");
         }
         Iterator<Contact> iterator = listContacts.iterator();
@@ -69,7 +70,7 @@ public class ContactManager {
 
     // поиск контакта по имени
     public void getContactByName(String name) throws NullPointerException {
-        if (listContacts == null || listContacts.size() == 0) {
+        if (listContacts.size() == 0) {
             throw new NullPointerException("Пусто. Контакты не добавлены.");
         }
         Iterator<Contact> listIterator = listContacts.iterator();
@@ -85,7 +86,7 @@ public class ContactManager {
     // если ключ уже существует, то старое значение будет перезаписано новым значением,
     // а ключ останется неизменным)
     public void getContactsByGroup(String group) {
-        if (listContacts == null || listContacts.size() == 0) {
+        if (listContacts.size() == 0) {
             throw new NullPointerException("Пусто. Контакты не добавлены.");
         }
         for (Map.Entry<String, Contact> entry : mapContacts.entrySet()) {
