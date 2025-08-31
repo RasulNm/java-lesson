@@ -97,29 +97,32 @@ public class Test {
         // Задание 4. Получите список продуктов, заказанных клиентом второго уровня между 20-08-2025 и 24-08-2025.
         System.out.println("Задание 4. Получите список продуктов, заказанных клиентом второго уровня между 20-08-2025 и 24-08-2025.");
 
-        List<String> listProducts =  customerList.stream()
+        List<Product> listProducts = customerList.stream()
                 .filter(level -> level.getLevel() == 2)
                 .flatMap(order -> order.getOrders().stream())
-                .filter(date -> date.getOrderDate().getDayOfMonth() >= 20 && date.getOrderDate().getDayOfMonth() <= 24)
+                .filter(date -> date.getOrderDate().getDayOfMonth() >= 20 && date.getOrderDate().getDayOfMonth() <= 24
+                        && date.getOrderDate().getMonthValue() == 8 && date.getOrderDate().getYear() == 2025)
                 .flatMap(product -> product.getProducts().stream())
-                .map(product1 -> product1.getName())
                 .distinct()
                 .toList();
 
-        System.out.println(listProducts);
+        for (Product product : listProducts) {
+            System.out.println(product);
+        }
         System.out.println("--------------------------------");
 
 
         // Задание 5. Получите топ 2 самые дешевые продукты из категории "Электроника".
         System.out.println("Задание 5. Получите топ 2 самые дешевые продукты из категории \"Электроника\".");
 
-        List<Product> cheapProducts = products.stream()
+        List<Product> cheapProducts = customerList.stream()
+                .flatMap(order -> order.getOrders().stream().flatMap(product -> product.getProducts().stream()))
                 .filter(category -> category.getCategory().equals("Электроника"))
                 .sorted(Comparator.comparing(Product::getPrice)) //.sorted((price1, price2) -> price1.getPrice().compareTo(price2.getPrice()))
                 .limit(2)
                 .collect(Collectors.toList());
 
-        for(Product product: cheapProducts){
+        for (Product product : cheapProducts) {
             System.out.println(product);
         }
         System.out.println("--------------------------------");
@@ -133,7 +136,7 @@ public class Test {
                 .limit(3)
                 .collect(Collectors.toList());
 
-        for(Order order: ordersMade){
+        for (Order order : ordersMade) {
             System.out.println(order);
         }
         System.out.println("--------------------------------");
@@ -143,13 +146,15 @@ public class Test {
         System.out.println("Задание 7. Получите список заказов, сделанных 20-08-2025, выведите id заказов в консоль и затем верните " +
                 "список их продуктов.");
 
-        customerList.stream()
+        Map<Long, List<Product>> products10 = customerList.stream()
                 .flatMap(order -> order.getOrders().stream())
                 .filter(date -> date.getOrderDate().equals(LocalDate.of(2025, 8, 20)))
-                .peek(id -> System.out.println("id -> " + id.getId()))
-                .forEach(product -> product.getProducts().stream()
-                        .forEach(products2 -> System.out.println(products2.getName())));
+                .collect(Collectors.toMap(order -> order.getId()
+                        , product -> new ArrayList<>(product.getProducts())));
 
+        for (Map.Entry<Long, List<Product>> entry : products10.entrySet()) {
+            System.out.println("Заказ (id) = " + entry.getKey() + ".\nСписок продуктов: " + entry.getValue());
+        }
         System.out.println("--------------------------------");
 
         // Задание 8.  Рассчитайте общую сумму всех заказов, сделанных в августе 2025.
@@ -186,35 +191,48 @@ public class Test {
         System.out.println("Задание 10. Получите набор статистических данных (сумма, среднее, максимум, минимум, количество) для всех " +
                 "продуктов категории \"Электроника\".");
 
-        double sumProducts2 = products.stream()
+        double sumProducts2 = customerList.stream()
+                .flatMap(order -> order.getOrders().stream()
+                        .flatMap(product -> product.getProducts().stream()))
                 .filter(category -> category.getCategory().equals("Электроника"))
+                .distinct()
                 .mapToDouble(price -> price.getPrice().doubleValue())
                 .sum();
 
         System.out.println("Сумма для всех продуктов категории \"Электроника\": " + sumProducts2);
 
-        OptionalDouble avgProducts = products.stream()
+        OptionalDouble avgProducts = customerList.stream()
+                .flatMap(order -> order.getOrders().stream()
+                        .flatMap(product -> product.getProducts().stream()))
                 .filter(category -> category.getCategory().equals("Электроника"))
+                .distinct()
                 .mapToDouble(price -> price.getPrice().doubleValue())
                 .average();
 
         System.out.println("Средняя цена для всех продуктов категории \"Электроника\": " + avgProducts.orElse(-1.0));
 
-        products.stream()
+        customerList.stream()
+                .flatMap(order -> order.getOrders().stream()
+                        .flatMap(product -> product.getProducts().stream()))
                 .filter(category -> category.getCategory().equals("Электроника"))
                 .mapToDouble(price -> price.getPrice().doubleValue())
                 .max()
                 .ifPresent(max -> System.out.println("Максимальная цена для всех продуктов категории \"Электроника\":" + max));
 
-        products.stream()
+        customerList.stream()
+                .flatMap(order -> order.getOrders().stream()
+                        .flatMap(product -> product.getProducts().stream()))
                 .filter(category -> category.getCategory().equals("Электроника"))
                 .mapToDouble(price -> price.getPrice().doubleValue())
                 .reduce(Double::min)
                 .ifPresent(min -> System.out.println("Минимальная цена для всех продуктов категории \"Электроника\":" + min));
 
 
-        long countProducts = products.stream()
+        long countProducts = customerList.stream()
+                .flatMap(order -> order.getOrders().stream()
+                        .flatMap(product -> product.getProducts().stream()))
                 .filter(category -> category.getCategory().equals("Электроника"))
+                .distinct()
                 .mapToDouble(price -> price.getPrice().doubleValue())
                 .count();
 
@@ -224,13 +242,23 @@ public class Test {
         // Задание 11. Получите данные Map<Long, Integer> -> key - id заказа, value - кол-во товаров в заказе
         System.out.println("Задание 11. Получите данные Map<Long, Integer> -> key - id заказа, value - кол-во товаров в заказе");
 
-        Map<Long, Integer> countProducts2 = customerList.stream()
+        Map<Long, List<Integer>> countProducts2 = customerList.stream()
                 .flatMap(order -> order.getOrders().stream())
-                .flatMap(product -> product.getProducts().stream())
-                .collect(Collectors.groupingBy(Product::getId
-                        , Collectors.collectingAndThen(Collectors.counting(), Long::intValue)));
+                .collect(Collectors.groupingBy(Order::getId
+                        , Collectors.mapping(product -> (int) product.getProducts().stream().count(), Collectors.toList())));
 
-        for(Map.Entry<Long, Integer> entry: countProducts2.entrySet()){
+        for (Map.Entry<Long, List<Integer>> entry : countProducts2.entrySet()) {
+            System.out.println("id заказа = " + entry.getKey() + " -> кол-во товаров в заказе = " + entry.getValue());
+        }
+
+        System.out.println("2 СПОСОБ:");
+
+        Map<Long, Integer> countProducts3 = customerList.stream()
+                .flatMap(order -> order.getOrders().stream())
+                .collect(Collectors.toMap(id -> id.getId()
+                        , product -> ((int) product.getProducts().stream().count())));
+
+        for (Map.Entry<Long, Integer> entry : countProducts3.entrySet()) {
             System.out.println("id заказа = " + entry.getKey() + " -> кол-во товаров в заказе = " + entry.getValue());
         }
         System.out.println("--------------------------------");
@@ -260,24 +288,29 @@ public class Test {
                         sumProducts3 -> sumProducts3.getProducts().stream()
                                 .mapToDouble(price -> price.getPrice().doubleValue()).sum()));
 
-        for(Map.Entry<Order, Double> entry: collect.entrySet()){
+        for (Map.Entry<Order, Double> entry : collect.entrySet()) {
             System.out.println(entry.getKey() + ". Общая сумма продуктов = " + entry.getValue());
         }
         System.out.println("--------------------------------");
 
         // Задание 14. Получите Map<String, List<String>> -> key - категория, value - список названий товаров в категории
         System.out.println("Задание 14. Получите Map<String, List<String>> -> key - категория, value - список названий товаров в категории");
-        Map<String, List<String>> listPrCategory = products.stream()
+        Map<String, List<String>> listPrCategory = customerList.stream()
+                .flatMap(order -> order.getOrders().stream()
+                        .flatMap(product -> product.getProducts().stream()))
+                .distinct()
                 .collect(Collectors.groupingBy(Product::getCategory, Collectors.mapping(Product::getName, Collectors.toList())));
 
-        for(Map.Entry<String, List<String>> entry: listPrCategory.entrySet()){
+        for (Map.Entry<String, List<String>> entry : listPrCategory.entrySet()) {
             System.out.println(entry.getKey() + ": " + entry.getValue());
         }
         System.out.println("--------------------------------");
 
         // Задание 15. Получите Map<String, Product> → самый дорогой продукт по каждой категории.
         System.out.println("Задание 15. Получите Map<String, Product> → самый дорогой продукт по каждой категории.");
-        Map<String, Optional<Product>> expensiveProducts = products.stream()
+        Map<String, Optional<Product>> expensiveProducts = customerList.stream()
+                .flatMap(order -> order.getOrders().stream()
+                        .flatMap(product -> product.getProducts().stream()))
                 .collect(Collectors.groupingBy(Product::getCategory,
                         Collectors.maxBy(Comparator.comparing(Product::getPrice))));
 
@@ -289,7 +322,9 @@ public class Test {
         System.out.println("2 СПОСОБ:");
 
         try {
-            Map<String, Product> expensiveProducts2 = products.stream()
+            Map<String, Product> expensiveProducts2 = customerList.stream()
+                    .flatMap(order -> order.getOrders().stream()
+                            .flatMap(product -> product.getProducts().stream()))
                     .collect(Collectors.groupingBy(Product::getCategory, Collectors.collectingAndThen(
                             Collectors.maxBy(Comparator.comparing(Product::getPrice)), Optional::orElseThrow)));
 
