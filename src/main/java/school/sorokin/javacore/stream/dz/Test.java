@@ -149,11 +149,12 @@ public class Test {
         Map<Long, List<Product>> products10 = customerList.stream()
                 .flatMap(order -> order.getOrders().stream())
                 .filter(date -> date.getOrderDate().equals(LocalDate.of(2025, 8, 20)))
+                .peek(idOrder -> System.out.println("Заказ (id) = " + idOrder.getId()))
                 .collect(Collectors.toMap(order -> order.getId()
                         , product -> new ArrayList<>(product.getProducts())));
 
         for (Map.Entry<Long, List<Product>> entry : products10.entrySet()) {
-            System.out.println("Заказ (id) = " + entry.getKey() + ".\nСписок продуктов: " + entry.getValue());
+            System.out.println("Список продуктов: " + entry.getValue());
         }
         System.out.println("--------------------------------");
 
