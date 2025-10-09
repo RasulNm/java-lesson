@@ -15,14 +15,13 @@ public class DataProcessor {
     private Map<String, Future<Integer>> resultMap = new HashMap<>();
     private static final Object lock = new Object();
 
-    public DataProcessor(ExecutorService executorService) {
-        this.executorService = executorService;
+    public DataProcessor() {
+        this.executorService = Executors.newFixedThreadPool(20);
     }
 
     public void submitTask(List<Integer> numbers) throws ExecutionException, InterruptedException {
-        activeTasks.incrementAndGet();
         String taskName = "task" + count.incrementAndGet();
-        CalculateSumTask task = new CalculateSumTask(numbers, taskName);
+        CalculateSumTask task = new CalculateSumTask(numbers, taskName, activeTasks);
 
         Future<Integer> resultFuture = executorService.submit(task);
 
@@ -31,7 +30,6 @@ public class DataProcessor {
         synchronized (lock) {
             resultMap.put(taskName, resultFuture);
         }
-        activeTasks.decrementAndGet();
     }
 
     public int getActiveTaskCount() {

@@ -1,16 +1,13 @@
 package school.sorokin.multithreading2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException, ExecutionException {
 
-        DataProcessor processor = new DataProcessor(Executors.newFixedThreadPool(20));
+        DataProcessor processor = new DataProcessor();
 
         for(int i = 0; i < 100; i++) {
             List<Integer> numbers = Arrays.asList(i + 10, i + 20);
@@ -18,13 +15,16 @@ public class Main {
         }
 
         while (true) {
-            System.out.println("Текущее количество задач " + processor.getActiveTaskCount());
+            System.out.println("Ожидание завершения задач. Активных: " + processor.getActiveTaskCount());
             if(processor.getActiveTaskCount() == 0) {
                 break;
             }
+            Thread.sleep(500);
         }
 
 
+        System.out.println("--------------------------------------------");
+        System.out.println("Результат всех задач:");
         for (int i = 0; i < 100; i++) {
             int finalI = i;
             processor.getResult("task" + i).ifPresent(v -> {
